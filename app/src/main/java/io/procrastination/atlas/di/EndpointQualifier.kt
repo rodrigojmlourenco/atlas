@@ -1,4 +1,4 @@
-package io.procrastination.atlas.data
+package io.procrastination.atlas.di
 
 import java.lang.annotation.Documented
 import javax.inject.Qualifier

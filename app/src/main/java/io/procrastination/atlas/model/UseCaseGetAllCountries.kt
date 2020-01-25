@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import io.procrastination.atlas.data.AtlasService
 import io.procrastination.atlas.data.CountryDto
 import io.reactivex.Single
+import timber.log.Timber
 import javax.inject.Inject
 
 class UseCaseGetAllCountries
@@ -16,10 +17,11 @@ class UseCaseGetAllCountries
     override fun execute(params: Void?): Single<List<Country>> {
         return service.getAllCountries()
             .map { it.mapNotNull(this::mapDtoToEntity) }
+            .doOnError { Timber.e(it) }
     }
 
     @VisibleForTesting
-    internal fun mapDtoToEntity(dto : CountryDto) : Country? {
+    internal fun mapDtoToEntity(dto: CountryDto): Country? {
         return Country(
             name = dto.name,
             capital = dto.capital,

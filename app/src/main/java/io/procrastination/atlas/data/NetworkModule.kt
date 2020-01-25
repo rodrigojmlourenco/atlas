@@ -52,4 +52,9 @@ class NetworkModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
+
+    @Provides
+    fun provideAtlasService(retrofit: Retrofit) : AtlasService {
+        return retrofit.create(AtlasService::class.java)
+    }
 }

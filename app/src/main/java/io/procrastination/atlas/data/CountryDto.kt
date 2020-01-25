@@ -29,5 +29,5 @@ data class CountryDto(
     val subregion: String,
     val timezones: List<String>,
     val topLevelDomain: List<String>,
-    val translations: Translations
+    val translations: Translations?
 )

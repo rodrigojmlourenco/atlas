@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -30,6 +31,7 @@ class CountryDetailsFragment : Fragment() {
     private lateinit var txtCapital : TextView
     private lateinit var txtPopulation : TextView
     private lateinit var txtCoordinates : TextView
+    private lateinit var progressBar : ProgressBar
 
     private val countryName by lazy {
         CountryDetailsFragmentArgs.fromBundle(arguments ?: Bundle.EMPTY).country
@@ -50,6 +52,8 @@ class CountryDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressBar = view.findViewById(R.id.progress_bar)
 
         txtName = view.findViewById(R.id.txt_name)
         txtCapital = view.findViewById(R.id.txt_capital)
@@ -74,6 +78,8 @@ class CountryDetailsFragment : Fragment() {
     }
 
     private fun onCountryLoaded(country : Country){
+        progressBar.visibility = View.GONE
+
         txtName.text = country.name
         txtCapital.text = country.capital
         txtPopulation.text = country.population.toString()

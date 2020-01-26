@@ -5,8 +5,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.procrastination.atlas.data.AtlasService
-import io.procrastination.atlas.data.CountryDto
 import io.procrastination.atlas.helpers.FixtureHelper.fxtCountryDto
+import io.procrastination.atlas.model.mappers.CountryMapper
+import io.procrastination.atlas.model.usecases.UseCaseGetAllCountries
 import io.reactivex.Single
 import org.junit.Assert
 import org.junit.Before
@@ -19,29 +20,14 @@ class UseCaseGetAllCountriesTest {
     @MockK
     private lateinit var mockService: AtlasService
 
-    private val fixture = JFixture()
-
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
-        sut = UseCaseGetAllCountries(mockService)
-    }
-
-    @Test
-    fun `GIVEN sample WHEN map THEN has correct entity`() {
-        val fxtLat = fixture.create(Double::class.java)
-        val fxtLng = fixture.create(Double::class.java)
-        val fxtSample = fxtCountryDto(latitude = fxtLat, longitude = fxtLng)
-
-        val test = sut.mapDtoToEntity(fxtSample) ?: error("Should not be null")
-
-        Assert.assertNotNull(test)
-        Assert.assertEquals(fxtSample.name, test.name)
-        Assert.assertEquals(fxtSample.capital, test.capital)
-        Assert.assertEquals(fxtSample.population, test.population)
-        Assert.assertEquals(fxtLat, test.latitude, 0.toDouble())
-        Assert.assertEquals(fxtLng, test.longitude, 0.toDouble())
+        sut = UseCaseGetAllCountries(
+            mockService,
+            CountryMapper()
+        )
     }
 
     @Test

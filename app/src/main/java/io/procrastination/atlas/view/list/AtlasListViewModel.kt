@@ -3,8 +3,8 @@ package io.procrastination.atlas.view.list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.procrastination.atlas.model.AtlasScheduler
-import io.procrastination.atlas.model.Country
-import io.procrastination.atlas.model.UseCaseGetAllCountries
+import io.procrastination.atlas.model.entities.Country
+import io.procrastination.atlas.model.usecases.UseCaseGetAllCountries
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -42,16 +42,6 @@ class AtlasListViewModel
             is Request.LoadCountriesAlphabetically -> orderCountriesAlphabetically()
 
             is Request.LoadCountriesReverse -> orderCountriesReversed()
-
-            is Request.GetCountry -> {
-
-                val r = counties.value?.firstOrNull { it.name == request.name }?.let {
-                    Response.CountrySelected(it)
-                } ?: Response.Error("Country not found.")
-
-
-                response.postValue(r)
-            }
         }
     }
 
@@ -82,12 +72,10 @@ class AtlasListViewModel
     sealed class Request {
         object LoadCountriesAlphabetically : Request()
         object LoadCountriesReverse : Request()
-        data class GetCountry(val name : String) : Request()
     }
 
     sealed class Response {
         data class Error(val message: String) : Response()
         data class CountriesLoaded(val countries: List<Country>) : Response()
-        data class CountrySelected(val country: Country) : Response()
     }
 }

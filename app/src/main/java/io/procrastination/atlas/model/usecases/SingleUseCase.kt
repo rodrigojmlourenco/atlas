@@ -1,4 +1,4 @@
-package io.procrastination.atlas.model
+package io.procrastination.atlas.model.usecases
 
 import io.reactivex.Single
 

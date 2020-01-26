@@ -1,4 +1,4 @@
-package io.procrastination.atlas.model
+package io.procrastination.atlas.model.entities
 
 data class Country(
     val name : String,

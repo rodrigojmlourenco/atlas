@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 @Keep
 @JsonClass(generateAdapter = true)
 data class CurrencyDto(
-    val code: String,
-    val name: String,
-    val symbol: String
+    val code: String?,
+    val name: String?,
+    val symbol: String?
 )

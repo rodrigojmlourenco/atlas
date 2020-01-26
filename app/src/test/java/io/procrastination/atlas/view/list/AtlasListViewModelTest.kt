@@ -6,8 +6,8 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.procrastination.atlas.model.AtlasScheduler
-import io.procrastination.atlas.model.Country
-import io.procrastination.atlas.model.UseCaseGetAllCountries
+import io.procrastination.atlas.model.entities.Country
+import io.procrastination.atlas.model.usecases.UseCaseGetAllCountries
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.junit.Assert
@@ -71,26 +71,5 @@ class AtlasListViewModelTest {
         (sut.response.value as Response.CountriesLoaded).let {
             Assert.assertEquals(fxtSample.sortedByDescending { it.name }, it.countries)
         }
-    }
-
-    @Test
-    fun `WHEN get country THEN correct answer`(){
-        val fxtName = fxtSample.first().name
-
-        sut.handleRequest(Request.GetCountry(fxtName))
-
-        Assert.assertTrue(sut.response.value is Response.CountrySelected)
-        (sut.response.value as Response.CountrySelected).let {
-            Assert.assertEquals(fxtSample.first(), it.country)
-        }
-    }
-
-    @Test
-    fun `GIVEN country does not exit WHEN get country THEN error`(){
-        val fxtName = fixture.create(String::class.java)
-
-        sut.handleRequest(Request.GetCountry(fxtName))
-
-        Assert.assertTrue(sut.response.value is Response.Error)
     }
 }

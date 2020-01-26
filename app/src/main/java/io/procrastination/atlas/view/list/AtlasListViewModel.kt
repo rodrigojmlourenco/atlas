@@ -51,7 +51,7 @@ class AtlasListViewModel
             .subscribeOn(scheduler.subscribeOn)
             .observeOn(scheduler.observeOn)
             .subscribeBy(
-                onSuccess = { response.postValue(Response.CountriesLoaded(it)) },
+                onSuccess = { response.postValue(Response.CountriesLoaded(it, true)) },
                 onError = { response.postValue(Response.Error(it.message ?: "")) }
             )
             .addTo(container)
@@ -63,7 +63,7 @@ class AtlasListViewModel
             .subscribeOn(scheduler.subscribeOn)
             .observeOn(scheduler.observeOn)
             .subscribeBy(
-                onSuccess = { response.postValue(Response.CountriesLoaded(it)) },
+                onSuccess = { response.postValue(Response.CountriesLoaded(it, false)) },
                 onError = { response.postValue(Response.Error(it.message ?: "")) }
             )
             .addTo(container)
@@ -76,6 +76,10 @@ class AtlasListViewModel
 
     sealed class Response {
         data class Error(val message: String) : Response()
-        data class CountriesLoaded(val countries: List<Country>) : Response()
+
+        data class CountriesLoaded(
+            val countries: List<Country>,
+            val alphabeticalOrder : Boolean
+        ) : Response()
     }
 }
